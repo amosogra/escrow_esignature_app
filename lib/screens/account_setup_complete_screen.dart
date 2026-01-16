@@ -64,103 +64,115 @@ class _AccountSetupCompleteScreenState extends State<AccountSetupCompleteScreen>
       );
     }
 
-    return Padding(
-      padding: const EdgeInsets.all(24.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const Spacer(),
-          
-          // Success Icon
-          Container(
-            height: 120,
-            width: 120,
-            decoration: BoxDecoration(
-              color: Colors.green.shade100,
-              shape: BoxShape.circle,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: constraints.maxHeight,
             ),
-            child: Icon(
-              Icons.check_circle,
-              size: 80,
-              color: Colors.green.shade700,
+            child: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const SizedBox(height: 40),
+
+                  // Success Icon
+                  Center(
+                    child: Container(
+                      height: 120,
+                      width: 120,
+                      decoration: BoxDecoration(
+                        color: Colors.green.shade100,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        Icons.check_circle,
+                        size: 80,
+                        color: Colors.green.shade700,
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 32),
+
+                  // Title
+                  const Text(
+                    'Account Setup Complete!',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  Text(
+                    'Welcome, ${widget.userData['firstName']}! Your account is ready.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+
+                  const SizedBox(height: 32),
+
+                  // Summary Card
+                  Container(
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[50],
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: Colors.grey.shade300),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Account Summary',
+                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 16),
+                        _buildInfoRow(Icons.person, 'Name', '${widget.userData['firstName']} ${widget.userData['lastName']}'),
+                        const SizedBox(height: 12),
+                        _buildInfoRow(Icons.email, 'Email', widget.userData['email']),
+                        const SizedBox(height: 12),
+                        _buildInfoRow(Icons.phone, 'Phone', widget.userData['phone']),
+                        const SizedBox(height: 12),
+                        _buildInfoRow(Icons.account_circle, 'Account Type', widget.userData['accountType']),
+                        const SizedBox(height: 12),
+                        _buildInfoRow(Icons.check_circle, 'E-Signature Consent', 'Accepted'),
+                        const SizedBox(height: 12),
+                        _buildInfoRow(Icons.description, 'Terms of Service', 'Accepted'),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 32),
+
+                  // Next Steps
+                  ElevatedButton(
+                    onPressed: _registrationComplete ? _handleGetStarted : null,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue,
+                      foregroundColor: Colors.white,
+                    ),
+                    child: const Text(
+                      'Setup Anchor Account',
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+
+                  const SizedBox(height: 40),
+                ],
+              ),
             ),
           ),
-          
-          const SizedBox(height: 32),
-          
-          // Title
-          const Text(
-            'Account Setup Complete!',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 28,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          
-          const SizedBox(height: 16),
-          
-          Text(
-            'Welcome, ${widget.userData['firstName']}! Your account is ready.',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.grey[600],
-            ),
-          ),
-          
-          const SizedBox(height: 32),
-          
-          // Summary Card
-          Container(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: Colors.grey[50],
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: Colors.grey.shade300),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Account Summary',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 16),
-                _buildInfoRow(Icons.person, 'Name', '${widget.userData['firstName']} ${widget.userData['lastName']}'),
-                const SizedBox(height: 12),
-                _buildInfoRow(Icons.email, 'Email', widget.userData['email']),
-                const SizedBox(height: 12),
-                _buildInfoRow(Icons.phone, 'Phone', widget.userData['phone']),
-                const SizedBox(height: 12),
-                _buildInfoRow(Icons.account_circle, 'Account Type', widget.userData['accountType']),
-                const SizedBox(height: 12),
-                _buildInfoRow(Icons.check_circle, 'E-Signature Consent', 'Accepted'),
-                const SizedBox(height: 12),
-                _buildInfoRow(Icons.description, 'Terms of Service', 'Accepted'),
-              ],
-            ),
-          ),
-          
-          const Spacer(),
-          
-          // Next Steps
-          ElevatedButton(
-            onPressed: _registrationComplete ? _handleGetStarted : null,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blue,
-              foregroundColor: Colors.white,
-            ),
-            child: const Text(
-              'Setup Anchor Account',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-          ),
-          
-          const SizedBox(height: 16),
-        ],
-      ),
+        );
+      },
     );
   }
 
